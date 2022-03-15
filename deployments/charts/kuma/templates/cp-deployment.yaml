@@ -94,11 +94,8 @@ spec:
             - containerPort: 5681
             - containerPort: 5682
             - containerPort: 5443
-            {{- if ne .Values.controlPlane.mode "global" }}
-            - containerPort: 5678
-            - containerPort: 5653
-              protocol: UDP
-          {{- end }}
+            # For the global zone sync service
+            - containerPort: 5685
           livenessProbe:
             httpGet:
               path: /healthy
