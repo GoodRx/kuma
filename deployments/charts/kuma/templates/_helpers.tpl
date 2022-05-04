@@ -10,14 +10,14 @@ Expand the name of the chart.
 This is the Kuma version the chart is intended to be used with.
 */}}
 {{- define "kuma.appVersion" -}}
-{{- .Chart.AppVersion -}}
+1.7.0
 {{- end }}
 
 {{/*
 This is only used in the `kuma.formatImage` function below.
 */}}
 {{- define "kuma.defaultRegistry" -}}
-docker.io/kumahq
+docker.io/kong
 {{- end }}
 
 {{- define "kuma.product" -}}
@@ -150,19 +150,13 @@ returns: formatted image string
 {{- $root := .root }}
 {{- $registry := ($img.registry | default $root.Values.global.image.registry) -}}
 {{- $repo := ($img.repository | required "Must specify image repository") -}}
-{{- $product := (include "kuma.product" .) }}
-{{- $tagPrefix := (include "kuma.tagPrefix" .) }}
-{{- $expectedVersion := (include "kuma.appVersion" $root) }}
 {{- if
   and
     $root.Values.global.image.tag
     (ne $root.Values.global.image.tag (include "kuma.appVersion" $root))
     (eq $root.Values.global.image.registry (include "kuma.defaultRegistry" .))
 -}}
-{{- fail (
-  printf "This chart only supports %s version %q but %sglobal.image.tag is set to %q. Set %sglobal.image.tag to %q or skip this check by setting %s*.image.tag for each individual component."
-  $product $expectedVersion $tagPrefix $root.Values.global.image.tag $tagPrefix $expectedVersion $tagPrefix
-) -}}
+{{- fail (printf "This chart only supports Kong Mesh version %q but kuma.global.image.tag is set to %q. Set kuma.global.image.tag to %q or skip this check by setting kuma.*.image.tag for each individual component." (include "kuma.appVersion" $root) $root.Values.global.image.tag (include "kuma.appVersion" $root)) -}}
 {{- end -}}
 {{- $defaultTag := ($root.Values.global.image.tag | default (include "kuma.appVersion" $root)) -}}
 {{- $tag := ($img.tag | default $defaultTag) -}}

@@ -1,18 +1,15 @@
 apiVersion: v2
-name: kuma
-description: A Helm chart for the Kuma Control Plane
-type: application
-version: 1.6.0
-appVersion: 1.6.0
-home: https://github.com/kumahq/kuma
-maintainers:
-  - name: austince
-    email: austin.cawley@gmail.com
-  - name: jakubdyszkiewicz
-    email: jakub.dyszkiewicz@konghq.com
-  - name: nickolaev
-    email: nikolay.nikolaev@konghq.com
-icon: https://kuma.io/images/brand/kuma-logo-new.svg
+appVersion: 1.7.0
+description: A Helm chart for Kong Mesh
+home: https://docs.konghq.com/mesh/
+icon: https://github.com/Kong/kong-mesh-charts/raw/master/artifacts/kong-mesh-square.png
 keywords:
-  - service mesh
-  - control plane
+- Kong
+- service mesh
+- control plane
+maintainers:
+- email: jakub.dyszkiewicz@konghq.com
+  name: jakubdyszkiewicz
+name: kong-mesh
+type: application
+version: 1.7.0

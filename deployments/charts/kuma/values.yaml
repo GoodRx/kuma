@@ -1,7 +1,9 @@
 global:
+  nameOverride: kong-mesh
+
   image:
     # -- Default registry for all Kuma Images
-    registry: "docker.io/kumahq"
+    registry: "docker.io/kong"
     # -- The default tag for all Kuma images, which itself defaults to .Chart.AppVersion
     tag:
   # -- Add `imagePullSecrets` to all the service accounts used for Kuma components
@@ -256,10 +258,28 @@ controlPlane:
   webhooks:
     validator:
       # -- Additional rules to apply on Kuma validator webhook. Useful when building custom policy on top of Kuma.
-      additionalRules: ""
+      additionalRules: |
+        - apiGroups:
+            - kuma.io
+          apiVersions:
+            - v1alpha1
+          operations:
+            - CREATE
+            - UPDATE
+            - DELETE
+          resources:
+            - opapolicies
     ownerReference:
       # -- Additional rules to apply on Kuma owner reference webhook. Useful when building custom policy on top of Kuma.
-      additionalRules: ""
+      additionalRules: |
+        - apiGroups:
+            - kuma.io
+          apiVersions:
+            - v1alpha1
+          operations:
+            - CREATE
+          resources:
+            - opapolicies
 
   # -- Specifies if the deployment should be started in hostNetwork mode.
   hostNetwork: false
